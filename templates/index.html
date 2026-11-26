@@ -195,7 +195,7 @@
   <div class="w-full max-w-[1480px] bg-brand-teal rounded-none sm:rounded-3xl lg:rounded-[40px] p-0 sm:p-2 lg:p-3 shadow-none sm:shadow-2xl border-0 sm:border-2 lg:border-4 border-brand-tealDark/40 flex flex-col lg:flex-row overflow-x-hidden min-h-screen lg:min-h-[880px] relative">
     
     <!-- ==================== SIDEBAR ==================== -->
-    <aside id="mainSidebar" style="transform:translateX(-110%);" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] lg:w-64 bg-brand-teal text-white flex flex-col justify-between pt-6 sm:pt-7 pb-6 lg:pb-5 px-5 lg:pl-6 lg:pr-0 select-none transition-transform duration-300 shadow-2xl overflow-y-auto">
+    <aside id="mainSidebar" data-open="false" aria-hidden="true" style="transform:translateX(-110%);" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] lg:w-64 bg-brand-teal text-white flex flex-col justify-between pt-6 sm:pt-7 pb-6 lg:pb-5 px-5 lg:pl-6 lg:pr-0 select-none transition-transform duration-300 shadow-2xl overflow-y-auto">
       
       <div>
         <!-- Brand Logo Header -->
@@ -1560,19 +1560,17 @@
     lucide.createIcons();
 
     // Mobile Sidebar Toggle
-    function toggleMobileSidebar() {
+    function toggleMobileSidebar(forceOpen = null) {
       const sb = document.getElementById('mainSidebar');
       const bd = document.getElementById('mobileBackdrop');
-      const isClosed = sb.style.transform.includes('-110%') || sb.style.transform.includes('-100%');
-      if (isClosed) {
-        sb.style.transform = 'translateX(0)';
-        bd.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-      } else {
-        sb.style.transform = 'translateX(-110%)';
-        bd.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-      }
+      if (!sb || !bd) return;
+      const isOpen = sb.dataset.open === 'true';
+      const shouldOpen = forceOpen === null ? !isOpen : forceOpen;
+      sb.dataset.open = String(shouldOpen);
+      sb.setAttribute('aria-hidden', String(!shouldOpen));
+      sb.style.transform = shouldOpen ? 'translateX(0)' : 'translateX(-110%)';
+      bd.classList.toggle('hidden', !shouldOpen);
+      document.body.classList.toggle('overflow-hidden', shouldOpen);
     }
 
     // Tab Switcher with Auto Active Indicator
@@ -1598,11 +1596,9 @@
         }
       });
 
-      // Close mobile drawer if opened
+      // Close drawer reliably after tab selection
       const sb = document.getElementById('mainSidebar');
-      if (!sb.style.transform.includes('-110%') && !sb.style.transform.includes('-100%')) {
-        toggleMobileSidebar();
-      }
+      if (sb && sb.dataset.open === 'true') toggleMobileSidebar(false);
 
       const mainCanvas = document.querySelector('main');
       if (mainCanvas) mainCanvas.scrollTop = 0;

@@ -189,13 +189,13 @@
   </div>
 
   <!-- Mobile Sidebar Backdrop -->
-  <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 hidden lg:hidden transition-opacity"></div>
+  <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 hidden transition-opacity"></div>
 
   <!-- ==================== MAIN APPLICATION CONTAINER ==================== -->
   <div class="w-full max-w-[1480px] bg-brand-teal rounded-none sm:rounded-3xl lg:rounded-[40px] p-0 sm:p-2 lg:p-3 shadow-none sm:shadow-2xl border-0 sm:border-2 lg:border-4 border-brand-tealDark/40 flex flex-col lg:flex-row overflow-x-hidden min-h-screen lg:min-h-[880px] relative">
     
     <!-- ==================== SIDEBAR ==================== -->
-    <aside id="mainSidebar" class="fixed lg:static inset-y-0 left-0 z-50 lg:z-auto w-72 max-w-[85vw] lg:w-64 bg-brand-teal text-white flex flex-col justify-between pt-6 sm:pt-7 pb-6 lg:pb-5 px-5 lg:pl-6 lg:pr-0 select-none transition-transform duration-300 -translate-x-full lg:translate-x-0 shadow-2xl lg:shadow-none overflow-y-auto">
+    <aside id="mainSidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] lg:w-64 bg-brand-teal text-white flex flex-col justify-between pt-6 sm:pt-7 pb-6 lg:pb-5 px-5 lg:pl-6 lg:pr-0 select-none transition-transform duration-300 -translate-x-full shadow-2xl overflow-y-auto">
       
       <div>
         <!-- Brand Logo Header -->
@@ -306,7 +306,7 @@
         <!-- Top Bar on Mobile: Brand, Hamburger, Team & Actions -->
         <div class="flex items-center justify-between w-full lg:w-auto gap-2">
           <div class="flex items-center space-x-2 sm:space-x-2.5">
-            <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            <button onclick="toggleMobileSidebar()" class="p-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
               <i data-lucide="menu" class="w-4 h-4"></i>
             </button>
             <div class="flex items-center space-x-2 lg:hidden">
@@ -1567,11 +1567,11 @@
       if (isClosed) {
         sb.classList.remove('-translate-x-full');
         bd.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden', 'lg:overflow-auto');
+        document.body.classList.add('overflow-hidden');
       } else {
         sb.classList.add('-translate-x-full');
         bd.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden', 'lg:overflow-auto');
+        document.body.classList.remove('overflow-hidden');
       }
     }
 
@@ -1600,7 +1600,7 @@
 
       // Close mobile drawer if opened
       const sb = document.getElementById('mainSidebar');
-      if (window.innerWidth < 1024 && !sb.classList.contains('-translate-x-full')) {
+      if (!sb.classList.contains('-translate-x-full')) {
         toggleMobileSidebar();
       }
 
